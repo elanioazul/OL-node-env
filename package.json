@@ -1,0 +1,27 @@
+{
+  "name": "visor-ol",
+  "version": "1.0.0",
+  "description": "unigis visor OL fuentes de datos INE y OSM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel *.html",
+    "build": "parcel build --public-url . *.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elanioazul/OL-node-env.git"
+  },
+  "author": "hhc hugo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elanioazul/OL-node-env/issues"
+  },
+  "homepage": "https://github.com/elanioazul/OL-node-env#readme",
+  "dependencies": {
+    "ol": "^6.4.2"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}
