@@ -1,0 +1,105 @@
+.header {
+  width: 100%;
+  height: 100px;
+  padding: 6px;
+  background-color: #1d2247;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.header__titlebox {
+  display: inline-block;
+  font-family: "Roboto";
+  font-weight: 900;
+  font-size: 1.2rem;
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header__title {
+  display: block;
+  text-align: center;
+}
+.header__logos {
+  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  background-color: white;
+  border: 1px solid white;
+}
+.header__logos-1 {
+  background-image: url(/overrrrrrrr.522e2646.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 45px;
+  width: 70px;
+  margin-top: 5px;
+}
+.header__logos-2 {
+  background-image: url(/ine.797591a3.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 85px;
+  width: 60px;
+}
+
+.subheader {
+  width: 100%;
+  height: 60px;
+  padding: 6px;
+  background-color: #4a4d76;
+  font-family: "Roboto";
+  font-weight: 900;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.subheader__title {
+  display: none;
+}
+.subheader__subtitle {
+  font-weight: 700;
+  font-size: 0.8rem;
+  font-style: italic;
+  opacity: 0.5;
+  margin-top: auto;
+  margin-bottom: 6px;
+  padding-right: 10px;
+}
+.subheader__logo {
+  background-image: url(/logo_contacta.9d049501.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: inline-block;
+  height: 35px;
+  width: 80px;
+  margin-top: 8px;
+}
+.subheader__author {
+  font-weight: 700;
+  font-size: 0.6rem;
+  font-style: italic;
+  opacity: 0.5;
+  margin-top: auto;
+  margin-bottom: 6px;
+}
+
+.frame {
+  border: 1px solid black;
+  margin: 6px;
+  height: 500px;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  background-color: cadetblue;
+}
+
+/*# sourceMappingURL=/ol-map.4ca0144a.css.map */
