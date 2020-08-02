@@ -2,7 +2,7 @@
   display: block;
   visibility: visible;
   font-size: xx-small;
-  color: #e67663;
+  color: #db5740;
   text-align: start;
 }
 
@@ -39,6 +39,13 @@
   width: 30%;
   background-color: white;
   border-radius: 3px;
+  background: -moz-linear-gradient(left, white 0%, whitesmoke 47%, #e6e8ec 55%, #8fa2bc 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, white), color-stop(47%, whitesmoke), color-stop(55%, #e6e8ec), color-stop(100%, #8fa2bc));
+  background: -webkit-linear-gradient(left, white 0%, whitesmoke 47%, #e6e8ec 55%, #8fa2bc 100%);
+  background: -o-linear-gradient(left, white 0%, whitesmoke 47%, #e6e8ec 55%, #8fa2bc 100%);
+  background: -ms-linear-gradient(left, white 0%, whitesmoke 47%, #e6e8ec 55%, #8fa2bc 100%);
+  background: linear-gradient(to right, white 0%, whitesmoke 47%, #e6e8ec 55%, #8fa2bc 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#ffffff", endColorstr="#8fa2bc", GradientType=1 );
 }
 .header__logos-text {
   display: none;
@@ -77,7 +84,7 @@
 .subheader__subtitle {
   font-weight: 700;
   font-size: 0.8rem;
-  font-style: italic;
+  text-transform: uppercase;
   opacity: 0.5;
   margin-top: auto;
   margin-bottom: 6px;
@@ -110,7 +117,6 @@
 .map {
   width: 100%;
   height: 100%;
-  background-color: cadetblue;
 }
 
 @media screen and (min-width: 1024px) {
@@ -118,7 +124,7 @@
     visibility: visible;
     display: block;
     text-align: start;
-    color: #e67663;
+    color: #db5740;
     font-size: xx-large;
   }
 
@@ -141,8 +147,16 @@
     justify-content: center;
     align-items: center;
     width: 40%;
-    background-color: white;
+    background-color: #91a3bd;
     border-radius: 8px;
+    background: white;
+    background: -moz-linear-gradient(left, white 0%, whitesmoke 47%, #e6e8ec 55%, #8fa2bc 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, white), color-stop(47%, whitesmoke), color-stop(55%, #e6e8ec), color-stop(100%, #8fa2bc));
+    background: -webkit-linear-gradient(left, white 0%, whitesmoke 47%, #e6e8ec 55%, #8fa2bc 100%);
+    background: -o-linear-gradient(left, white 0%, whitesmoke 47%, #e6e8ec 55%, #8fa2bc 100%);
+    background: -ms-linear-gradient(left, white 0%, whitesmoke 47%, #e6e8ec 55%, #8fa2bc 100%);
+    background: linear-gradient(to right, white 0%, whitesmoke 47%, #e6e8ec 55%, #8fa2bc 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#ffffff", endColorstr="#8fa2bc", GradientType=1 );
   }
   .header__logos-text {
     visibility: visible;
@@ -150,6 +164,7 @@
     color: #1d2247;
     font-family: "Roboto";
     font-weight: 600;
+    margin-right: 35px;
   }
   .header__logos-1 {
     background-image: url(/overrrrrrrr.522e2646.png);
@@ -173,8 +188,7 @@
     visibility: visible;
     color: white;
     font-weight: 700;
-    font-size: 0.8rem;
-    font-style: italic;
+    font-size: 1rem;
     opacity: 0.5;
     margin-top: auto;
     margin-right: 15px;
@@ -194,11 +208,16 @@
   }
   .subheader__author {
     font-weight: 700;
-    font-size: 0.6rem;
+    font-size: 0.9rem;
     font-style: italic;
     opacity: 0.5;
     margin-top: auto;
     margin-bottom: 6px;
+  }
+
+  .frame {
+    margin: 0px;
+    height: 100vh;
   }
 }
 
