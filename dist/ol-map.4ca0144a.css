@@ -1,3 +1,11 @@
+.br {
+  display: block;
+  visibility: visible;
+  font-size: xx-small;
+  color: #e67663;
+  text-align: start;
+}
+
 .header {
   width: 100%;
   height: 100px;
@@ -15,12 +23,12 @@
   font-size: 1.2rem;
   width: 70%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 .header__title {
   display: block;
-  text-align: center;
+  text-align: start;
 }
 .header__logos {
   display: inline-block;
@@ -30,7 +38,10 @@
   align-items: center;
   width: 30%;
   background-color: white;
-  border: 1px solid white;
+  border-radius: 3px;
+}
+.header__logos-text {
+  display: none;
 }
 .header__logos-1 {
   background-image: url(/overrrrrrrr.522e2646.png);
@@ -100,6 +111,95 @@
   width: 100%;
   height: 100%;
   background-color: cadetblue;
+}
+
+@media screen and (min-width: 1024px) {
+  .br {
+    visibility: visible;
+    display: block;
+    text-align: start;
+    color: #e67663;
+    font-size: xx-large;
+  }
+
+  .header {
+    padding: 16px;
+  }
+  .header__titlebox {
+    font-size: 1.5rem;
+    width: 60%;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .header__title {
+    display: block;
+  }
+  .header__logos {
+    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    background-color: white;
+    border-radius: 8px;
+  }
+  .header__logos-text {
+    visibility: visible;
+    display: initial;
+    color: #1d2247;
+    font-family: "Roboto";
+    font-weight: 600;
+  }
+  .header__logos-1 {
+    background-image: url(/overrrrrrrr.522e2646.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 55px;
+    width: 130px;
+    margin-top: 5px;
+    margin-right: 20px;
+  }
+  .header__logos-2 {
+    background-image: url(/ine.797591a3.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 85px;
+    width: 100px;
+  }
+
+  .subheader__title {
+    display: initial;
+    visibility: visible;
+    color: white;
+    font-weight: 700;
+    font-size: 0.8rem;
+    font-style: italic;
+    opacity: 0.5;
+    margin-top: auto;
+    margin-right: 15px;
+    margin-bottom: 6px;
+  }
+  .subheader__subtitle {
+    display: none;
+  }
+  .subheader__logo {
+    background-image: url(/logo_contacta.9d049501.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    height: 35px;
+    width: 80px;
+    margin-top: 8px;
+  }
+  .subheader__author {
+    font-weight: 700;
+    font-size: 0.6rem;
+    font-style: italic;
+    opacity: 0.5;
+    margin-top: auto;
+    margin-bottom: 6px;
+  }
 }
 
 /*# sourceMappingURL=/ol-map.4ca0144a.css.map */

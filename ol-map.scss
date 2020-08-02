@@ -1,3 +1,11 @@
+.br {
+    display: block;
+    visibility: visible;
+    font-size: xx-small;
+    color: #e67663;
+    text-align: start;
+
+}
 .header {
     width: 100%;
     height: 100px;
@@ -18,14 +26,14 @@
         width: 70%;
 
         display: flex;
-        align-items: center;
-        justify-content: center;
+        align-items: flex-start;
+        justify-content: flex-start;
 
     }
 
     &__title {
         display: block;
-        text-align: center;
+        text-align: start;
     }
 
     &__logos {
@@ -37,9 +45,12 @@
 
         width: 30%;
         background-color: white;
+        border-radius: 3px;
 
-        
-        border: 1px solid white;
+        &-text {
+            //visibility: hidden;
+            display: none;
+        }
 
         &-1 {
             background-image: url(./img/overrrrrrrr.png);
@@ -127,5 +138,109 @@
 
   @media screen and (min-width: 1024px) {
 
+    .br {
+        visibility: visible;
+        display: block;
+        text-align: start;
+        color: #e67663;
+        font-size: xx-large;
+    }
+
+    .header {
+        padding: 16px;
+    
+        &__titlebox {
+            font-size: 1.5rem;
+            width: 60%;
+            display: flex;
+            justify-content: flex-start;
+        }
+    
+        &__title {
+            display: block;
+        }
+    
+        &__logos {
+            display: inline-block;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+    
+            width: 40%;
+            background-color: white;
+            border-radius: 8px;
+
+            &-text {
+                visibility: visible;
+                display: initial;
+                color: #1d2247;
+                font-family: 'Roboto';
+                font-weight: 600;
+            }
+    
+    
+            &-1 {
+                background-image: url(./img/overrrrrrrr.png);
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                height: 55px;
+                width: 130px;
+                margin-top: 5px;
+                margin-right: 20px;
+            }
+
+            &-2 {
+                background-image: url(./img/ine.png);
+                background-repeat: no-repeat;
+                background-size: cover;
+                height: 85px;
+                width: 100px;
+            }
+        }
+    
+    }
+
+    .subheader {
+    
+        &__title {
+            display: initial;
+            visibility: visible;
+            color: white;
+            font-weight: 700;
+            font-size: 0.8rem;
+            font-style: italic;
+            opacity: 0.5;
+            margin-top: auto;
+            margin-right: 15px;
+            margin-bottom: 6px;
+        
+            
+        }
+        &__subtitle {
+            display: none;
+
+        }
+        &__logo {
+            background-image: url(./img/logo_contacta.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+    
+            display: inline-block;
+            
+            height: 35px;
+            width: 80px;
+    
+            margin-top: 8px;
+        }
+        &__author {
+            font-weight: 700;
+            font-size: 0.6rem;
+            font-style: italic;
+            opacity: 0.5;
+            margin-top: auto;
+            margin-bottom: 6px;
+        }
+    }
 
   }
