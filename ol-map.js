@@ -2,9 +2,10 @@ import 'ol/ol.css';
 import {Map, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
-import * as olControl from 'ol/control';
-import {defaults} from 'ol/control';
+//import * as olControl from 'ol/control';
+//import {defaults} from 'ol/control';
 import FullScreen from 'ol/control/FullScreen';
+import {defaults as defaultControls, OverviewMap} from 'ol/control.js'
 
 
 var osm = new TileLayer({
@@ -32,7 +33,9 @@ function init() {
         target: 'map',
         layers: [osm],
         view: myview,
-        controls: [fullscreenbtn]
+        controls: defaultControls().extend([
+            fullscreenbtn
+        ])
     })
 }
 
