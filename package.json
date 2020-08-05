@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/elanioazul/OL-node-env#readme",
   "dependencies": {
-    "ol": "^6.4.2"
+    "ol": "^6.4.2",
+    "ol-layerswitcher": "^3.6.0"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4",
