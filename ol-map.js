@@ -9,7 +9,9 @@ import { defaults as defaultControls, OverviewMap } from 'ol/control.js';
 
 import LayerSwitcher from 'ol-layerswitcher/src/ol-layerswitcher.js';
 import TileWMS from 'ol/source/TileWMS.js';
-import { Group as LayerGroup } from 'ol/layer.js'
+//legenda wms https://openlayers.org/en/latest/examples/wms-getlegendgraphic.html
+import { Image as ImageLayer, Group as LayerGroup } from 'ol/layer.js';
+import ImageWMS from 'ol/source/ImageWMS';
 
 
 //---------------------------------------------------------------
@@ -17,6 +19,7 @@ import { Group as LayerGroup } from 'ol/layer.js'
 //--------------------------------------------------------------
 
 //served from third parties
+//-------------------------
 var osm = new TileLayer({
     title: 'OSM',//Título de la capa
     type: 'base',//Tipo de capa
@@ -36,7 +39,25 @@ var stamenlayer = new TileLayer({
 })
 
 
-//switch layer var
+
+//served from my own Geoserver
+//-----------------------------
+var wmsSource = new ImageWMS({
+    url: 'http://localhost:8081/geoserver/wms',
+    params: {
+        'LAYERS': 'indicadores_zonascenso_comercios',
+        'FORMAT': 'image/png'
+    },
+    ratio: 1,
+    serverType: 'geoserver',
+});
+
+var indice = new ImageLayer({
+    extent: [-449755.474430, 4914663.447962, -398423.932424, 4952049.314483],
+    source: wmsSource,
+})
+
+//switch layer extension var
 var mylayers = [
     //Base maps
     new LayerGroup({
@@ -47,21 +68,9 @@ var mylayers = [
     //Capa Overlay
     new LayerGroup({
         title: 'Overlays',
-        layers: [
-            new TileLayer({
-                title: 'Ortofoto',//Título de la capa
-                type: 'overlays',//Tipo de capa
-                opacity: 0.1,
-                source: new TileWMS({
-                    url: 'http://www.ign.es/wms/pnoa-historico?',
-                    params: { 'LAYERS': 'PNOA2004', 'TILED': true }
-                })
-            })
-        ]
+        layers: [indice]
     })
 ]
-
-//served from my own Geoserver
 
 
 
@@ -99,8 +108,6 @@ var layerSwitcher = new LayerSwitcher({
 })
 
 
-
-
 function init() {
     //Definimos la variable map que alojará nuestro mapa
     var map = new Map({
@@ -111,8 +118,6 @@ function init() {
             fullscreenbtn, overview, layerSwitcher
         ])
     })
-    //Agregamos el control al mapa
-    map.addControl(layerSwitcher)
 
 }
 
