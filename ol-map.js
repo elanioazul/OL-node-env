@@ -19,7 +19,7 @@ var myview = new View({
     zoom: 14
 })
 
-//CONTROLES-------------- STUFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+//CONTROLS-------------- STUFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 var fullscreenbtn = new FullScreen({
     className: 'fullscreen',
 })

@@ -1,0 +1,30 @@
+//------------------
+//CONTROLS-----------------------
+//------------------
+.ol-attribution {
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.fullscreen {
+    display: fixed;
+    top: 8px;
+    right: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+
+    //------------------
+    //CONTROLS-----------------------
+    //------------------
+
+    .ol-attribution {
+        font-weight: 900;
+    }
+
+    .fullscreen {
+        top: 15px;
+        right: 15px;
+    }
+}
