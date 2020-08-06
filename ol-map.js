@@ -4,22 +4,24 @@ import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import Stamen from 'ol/source/Stamen';
 
+//controls
 import FullScreen from 'ol/control/FullScreen';
 import { defaults as defaultControls, OverviewMap } from 'ol/control.js';
-
 import LayerSwitcher from 'ol-layerswitcher/src/ol-layerswitcher.js';
-import TileWMS from 'ol/source/TileWMS.js';
+
 //legenda wms https://openlayers.org/en/latest/examples/wms-getlegendgraphic.html
 import { Image as ImageLayer, Group as LayerGroup, Vector } from 'ol/layer.js';
 import ImageWMS from 'ol/source/ImageWMS';
 
 //wfs
+import GML2 from 'ol/format/GML2.js'
+import GeoJSON from 'ol/format/GeoJSON'
 import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
-import GML2 from 'ol/format/GML2.js'
 import { bbox as bboxStrategy, bbox } from 'ol/loadingstrategy.js'
-import WFS from 'ol/format/WFS';
 
+//styles
+import { Stroke, Style } from 'ol/style';
 
 //---------------------------------------------------------------
 //LAYERS----------------------------------------------------------
@@ -68,31 +70,29 @@ var indice = new ImageLayer({
 })
 
 //WFS---------------------------------------------------------------------------------------
-// var vectorComercios = new VectorLayer({
-//     source: new VectorSource({
-//         format: new GeoJSON(),
-//         url: function (extent) {
-//             return 'http://localhost:8081/geoserver/unigis/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=unigis:comercios_por_zonacensal_geometrias&maxFeatures=50&outputformat=json';
-//         },
-//         strategy: bboxStrategy
-//     })
-// })
 
-var wfs = new VectorLayer(
-    "comercioswfs",
-    {
-        strategies: bboxStrategy,
-        protocol: new WFS({
-            version: "1.1.0",
-            url: "http://localhost:8081/geoserver/wfs",
-            featurePrefix: 'unigis', //geoserver worspace name
-            featureType: "unigis:comercios_por_zonacensal_geometrias", //geoserver Layer Name
-            featureNS: "https://www.unigisprojectcensoosm.eu", // Edit Workspace Namespace URI
-            geometryName: "geometry" // field in Feature Type details with type "Geometry"
-        })
-    }
-);
+var comerciosSource = new VectorSource({
+    format: new GeoJSON(),
+    url: function (extent) {
+        return (
+            'http://localhost:8081/geoserver/unigis/wfs?service=WFS&' +
+            'version=1.0.0&request=GetFeature&typeName=unigis:comercios_por_zonacensal_geometrias&' +
+            'outputformat=application/json'
+        );
+    },
+    strategy: bboxStrategy,
+});
 
+
+var comerciosVector = new VectorLayer({
+    source: comerciosSource,
+    style: new Style({
+        stroke: new Stroke({
+            color: 'rgba(0, 0, 255, 1.0)',
+            width: 2,
+        }),
+    }),
+});
 
 //switch layer extension var
 var mylayers = [
@@ -105,7 +105,7 @@ var mylayers = [
     //Capa Overlay
     new LayerGroup({
         title: 'Overlays',
-        layers: [indice, wfs]
+        layers: [comerciosVector, indice]
     })
 ]
 
