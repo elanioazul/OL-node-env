@@ -21,7 +21,8 @@ import VectorLayer from 'ol/layer/Vector'
 import { bbox as bboxStrategy, bbox } from 'ol/loadingstrategy.js'
 
 //styles
-import { Stroke, Style } from 'ol/style';
+import { Stroke, Style, Fill } from 'ol/style';
+import CircleStyle from 'ol/style/Circle';
 
 //---------------------------------------------------------------
 //LAYERS----------------------------------------------------------
@@ -66,7 +67,9 @@ var wmsSourceZonas = new ImageWMS({
 var indice = new ImageLayer({
     extent: [-449755.474430, 4914663.447962, -398423.932424, 4952049.314483],
     source: wmsSourceZonas,
-    opacity: 0.9
+    opacity: 0.9,
+    type: 'Overlays',
+    title: 'ratio'
 })
 
 //WFS---------------------------------------------------------------------------------------
@@ -76,22 +79,34 @@ var comerciosSource = new VectorSource({
     url: function (extent) {
         return (
             'http://localhost:8081/geoserver/unigis/wfs?service=WFS&' +
-            'version=1.0.0&request=GetFeature&typeName=unigis:comercios_por_zonacensal_geometrias&' +
+            'version=2.0.0&request=GetFeature&typeName=unigis:comercios_por_zonacensal_geometrias&' +
             'outputformat=application/json'
         );
     },
     strategy: bboxStrategy,
 });
 
-
 var comerciosVector = new VectorLayer({
     source: comerciosSource,
+    type: 'Overlays',
+    title: 'comercios',
+    // style: new Style({
+    //     stroke: new Fill ({
+    //         color: '#eb4034',
+    //         width: 2,
+    //     }),
+    // }),
     style: new Style({
-        stroke: new Stroke({
-            color: 'rgba(0, 0, 255, 1.0)',
-            width: 2,
-        }),
-    }),
+        image: new CircleStyle ({ 
+            radius: 3, 
+            fill: new Fill ({ 
+                color: 'orange'
+            }), 
+            stroke: new Stroke ({ 
+                color: 'black'
+            }) 
+        }) 
+    })
 });
 
 //switch layer extension var
@@ -105,7 +120,7 @@ var mylayers = [
     //Capa Overlay
     new LayerGroup({
         title: 'Overlays',
-        layers: [comerciosVector, indice]
+        layers: [indice, comerciosVector]
     })
 ]
 
@@ -139,10 +154,7 @@ var overview = new OverviewMap({
     tipLabel: 'Mapa de referencia'
 })
 
-
-var layerSwitcher = new LayerSwitcher({
-    tipLabel: 'Leyenda'
-})
+var layerSwitcher = new LayerSwitcher();
 
 //-------------------------------
 //starting the app---------------
