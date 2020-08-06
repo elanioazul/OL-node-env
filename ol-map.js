@@ -21,7 +21,7 @@ import VectorLayer from 'ol/layer/Vector'
 import { bbox as bboxStrategy, bbox } from 'ol/loadingstrategy.js'
 
 //styles
-import { Stroke, Style, Fill } from 'ol/style';
+import { Stroke, Style, Fill, Text } from 'ol/style';
 import CircleStyle from 'ol/style/Circle';
 
 //---------------------------------------------------------------
@@ -86,28 +86,40 @@ var comerciosSource = new VectorSource({
     strategy: bboxStrategy,
 });
 
-var comerciosVector = new VectorLayer({
-    source: comerciosSource,
-    type: 'Overlays',
-    title: 'comercios',
-    // style: new Style({
-    //     stroke: new Fill ({
-    //         color: '#eb4034',
-    //         width: 2,
-    //     }),
-    // }),
-    style: new Style({
+var comerciosLabels = function (feature, resolution) { 
+    return [new Style ({ 
+        text: new Text ({ 
+            font: '16px Calibri,sans-serif', 
+            text: feature.get('brand'), 
+            fill: new Fill ({ 
+                color: '#d93d3d',
+                width: 2 
+            }), 
+            stroke: new Stroke ({ 
+                color: '#fff', 
+                width: 2 
+            }) 
+        }),
         image: new CircleStyle ({ 
             radius: 3, 
             fill: new Fill ({ 
-                color: 'orange'
+                color: '#9fe012'
             }), 
             stroke: new Stroke ({ 
                 color: 'black'
             }) 
-        }) 
-    })
+        })  
+    })]; 
+};
+
+var comerciosVector = new VectorLayer({
+    source: comerciosSource,
+    type: 'Overlays',
+    title: 'comercios',
+    style: comerciosLabels
 });
+
+
 
 //switch layer extension var
 var mylayers = [
