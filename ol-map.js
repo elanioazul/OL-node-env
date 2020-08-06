@@ -10,8 +10,15 @@ import { defaults as defaultControls, OverviewMap } from 'ol/control.js';
 import LayerSwitcher from 'ol-layerswitcher/src/ol-layerswitcher.js';
 import TileWMS from 'ol/source/TileWMS.js';
 //legenda wms https://openlayers.org/en/latest/examples/wms-getlegendgraphic.html
-import { Image as ImageLayer, Group as LayerGroup } from 'ol/layer.js';
+import { Image as ImageLayer, Group as LayerGroup, Vector } from 'ol/layer.js';
 import ImageWMS from 'ol/source/ImageWMS';
+
+//wfs
+import VectorSource from 'ol/source/Vector'
+import VectorLayer from 'ol/layer/Vector'
+import GML2 from 'ol/format/GML2.js'
+import { bbox as bboxStrategy, bbox } from 'ol/loadingstrategy.js'
+import WFS from 'ol/format/WFS';
 
 
 //---------------------------------------------------------------
@@ -42,7 +49,9 @@ var stamenlayer = new TileLayer({
 
 //served from my own Geoserver
 //-----------------------------
-var wmsSource = new ImageWMS({
+
+//WMS----------------------------------------------------------------------
+var wmsSourceZonas = new ImageWMS({
     url: 'http://localhost:8081/geoserver/wms',
     params: {
         'LAYERS': 'indicadores_zonascenso_comercios',
@@ -54,8 +63,36 @@ var wmsSource = new ImageWMS({
 
 var indice = new ImageLayer({
     extent: [-449755.474430, 4914663.447962, -398423.932424, 4952049.314483],
-    source: wmsSource,
+    source: wmsSourceZonas,
+    opacity: 0.9
 })
+
+//WFS---------------------------------------------------------------------------------------
+// var vectorComercios = new VectorLayer({
+//     source: new VectorSource({
+//         format: new GeoJSON(),
+//         url: function (extent) {
+//             return 'http://localhost:8081/geoserver/unigis/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=unigis:comercios_por_zonacensal_geometrias&maxFeatures=50&outputformat=json';
+//         },
+//         strategy: bboxStrategy
+//     })
+// })
+
+var wfs = new VectorLayer(
+    "comercioswfs",
+    {
+        strategies: bboxStrategy,
+        protocol: new WFS({
+            version: "1.1.0",
+            url: "http://localhost:8081/geoserver/wfs",
+            featurePrefix: 'unigis', //geoserver worspace name
+            featureType: "unigis:comercios_por_zonacensal_geometrias", //geoserver Layer Name
+            featureNS: "https://www.unigisprojectcensoosm.eu", // Edit Workspace Namespace URI
+            geometryName: "geometry" // field in Feature Type details with type "Geometry"
+        })
+    }
+);
+
 
 //switch layer extension var
 var mylayers = [
@@ -68,7 +105,7 @@ var mylayers = [
     //Capa Overlay
     new LayerGroup({
         title: 'Overlays',
-        layers: [indice]
+        layers: [indice, wfs]
     })
 ]
 
@@ -107,7 +144,9 @@ var layerSwitcher = new LayerSwitcher({
     tipLabel: 'Leyenda'
 })
 
-
+//-------------------------------
+//starting the app---------------
+//-------------------------------
 function init() {
     //Definimos la variable map que alojará nuestro mapa
     var map = new Map({

@@ -1,3 +1,5 @@
 http://localhost:8081/geoserver/unigis/wms?LAYERS=unigis:indicadores_zonascenso_comercios&STYLES=&FORMAT=image%2Fpng&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&SRS=EPSG%3A4326&BBOX=-3.95916724205017,40.3224830627441,-3.63736057281494,40.5803871154785&WIDTH=800&HEIGHT=330 
 
 http://localhost:8081/geoserver/unigis/wms?LAYERS=unigis:comercios_por_zonacensal_geometrias&STYLES=&FORMAT=image%2Fpng&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&SRS=EPSG%3A4326&BBOX=-3.95916724205017,40.3224830627441,-3.63736057281494,40.5803871154785&WIDTH=703&HEIGHT=330
+
+http://localhost:8081/geoserver/unigis/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=unigis:comercios_por_zonacensal_geometrias&maxFeatures=50&outputformat=json
