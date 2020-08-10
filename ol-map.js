@@ -9,6 +9,10 @@ import FullScreen from 'ol/control/FullScreen';
 import { defaults as defaultControls, OverviewMap } from 'ol/control.js';
 import LayerSwitcher from 'ol-layerswitcher/src/ol-layerswitcher.js';
 
+//interactions
+import Select from 'ol/interaction/Select';
+import Interaction from 'ol/interaction/Interaction';
+
 //legenda wms https://openlayers.org/en/latest/examples/wms-getlegendgraphic.html
 import { Image as ImageLayer, Group as LayerGroup, Vector } from 'ol/layer.js';
 import ImageWMS from 'ol/source/ImageWMS';
@@ -21,18 +25,18 @@ import VectorLayer from 'ol/layer/Vector'
 import { bbox as bboxStrategy, bbox } from 'ol/loadingstrategy.js'
 
 //styles
-import { Stroke, Style, Fill, Text } from 'ol/style';
+import { Icon, Stroke, Style, Fill, Text } from 'ol/style';
 import CircleStyle from 'ol/style/Circle';
-// import Icon from 'ol/style/Icon.js';
-// import * as fastfood from './img/icons8-street-food-100.png';
-// import bakery from './img/icons8-bakery-100.png'
-// import butchery from './img/icons8-butcher-100.png'
-// import supermarket from './img/icons8-buying-100.png'
-// import convenience from './img/icons8-convenince-store-100.png'
-// import pastry from './img/icons8-cook-100.png'
-// import frozenfood from './img/icons8-bakery-100.png'
-// import greengrocer from './img/icons8-salad-100.png'
-// import seafood from './img/icons8-seafood-100.png'
+//import Icon from 'ol/style/Icon.js';
+//import fastfood from './img/icon8-street-food-100.png';
+//import bakery from './img/*'
+//import butchery from './img/*'
+//import supermarket from './img/*'
+//import convenience from './img/*'
+//import pastry from './img/*'
+//import frozenfood from './img/*'
+//import greengrocer from './img/*'
+//import seafood from './img/*'
 
 //---------------------------------------------------------------
 //LAYERS----------------------------------------------------------
@@ -124,95 +128,240 @@ var comerciosStyle1 = function (feature, resolution) {
 };
 
 var comerciosCondStyle = function () {
-    var fastfoodStyle = new Style({
+    var fastfoodStyle = [new Style({
         image: new Icon({
             size: [100,100],
             anchor: [24,33],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: fastfood
+            src: './img/icon8-street-food-100.png',
+            crossOrigin: 'anonymous',
         })
-    })
-    var bakeryStyle = new Style({
+    })]
+    var bakeryStyle = [new Style({
         image: new Icon({
             size: [100,100],
             anchor: [24,33],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: bakery
+            src: './img/icon8-bakery-100.png',
+            crossOrigin: 'anonymous',
         })
-    })
-    var butcheryStyle = new Style({
+    })]
+    var butcheryStyle = [new Style({
         image: new Icon({
             size: [100,100],
             anchor: [24,33],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: butchery
+            src: './img/icon8-butcher-100.png',
+            crossOrigin: 'anonymous',
         })
-    })
-    var superStyle = new Style({
+    })]
+    var superStyle = [new Style({
         image: new Icon({
             size: [100,100],
             anchor: [24,33],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: supermarket
+            src: './img/icon8-buying-100.png',
+            crossOrigin: 'anonymous',
         })
-    })
-    var convenienceStyle = new Style({
+    })]
+    var convenienceStyle = [new Style({
         image: new Icon({
             size: [100,100],
             anchor: [24,33],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: convenience
+            src: './img/icon8-convenience-store-100.png',
+            crossOrigin: 'anonymous',
         })
-    })
-    var pastryStyle = new Style({
+    })]
+    var pastryStyle = [new Style({
         image: new Icon({
             size: [100,100],
             anchor: [24,33],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: pastry
+            src: './img/icon8-cook-100.png',
+            crossOrigin: 'anonymous',
         })
         
-    })
-    var frozenfoodStyle = new Style({
+    })]
+    var frozenfoodStyle = [new Style({
         image: new Icon({
             size: [100,100],
             anchor: [24,33],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: frozenfood
+            src: './img/icon8-ice-cream-scoop-100.png',
+            crossOrigin: 'anonymous',
         })
-    })
-    var veggieStyle = new Style({
+    })]
+    var veggieStyle = [new Style({
         image: new Icon({
             size: [100,100],
             anchor: [24,33],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: greengrocer
+            src: './img/icon8-salad-100.png',
+            crossOrigin: 'anonymous',
         })
-    })
-    var seafoodStyle = new Style({
+    })]
+    var seafoodStyle = [new Style({
         image: new Icon({
             size: [100,100],
             anchor: [24,33],
             anchorXUnits: 'pixels',
             anchorYUnits: 'pixels',
-            src: seafood
+            src: './img/icon8-seafood-100.png',
+            crossOrigin: 'anonymous',
         })
-    })
-}
+    })]
+    
+    return function(feature, resolution) {
+        if (feature.get('shop') == 'other') {
+            return fastfoodStyle
+        } else if (feature.get('shop') == 'bakery') {
+            return bakeryStyle
+        } else if (feature.get('shop') == 'butcher') {
+            return butcheryStyle
+        } else if (feature.get('shop') == 'supermarket') {
+            return superStyle
+        } else if (feature.get('shop') == 'convenience') {
+            return convenienceStyle
+        } else if (feature.get('shop') == 'pastry') {
+            return pastryStyle
+        } else if (feature.get('shop') == 'frozen_food') {
+            return frozenfoodStyle
+        } else if (feature.get('shop') == 'greengrocer') {
+            return veggieStyle
+        } else if (feature.get('shop') == 'seafood') {
+            return seafoodStyle
+        }
+    } 
+    
+};
+
+var comerciosCond2 = function (feature, resolution) { 
+    if (feature.get('shop') == 'other') {
+        return [new Style ({ 
+            image: new CircleStyle ({ 
+                radius: 3, 
+                fill: new Fill ({ 
+                    color: 'orange'
+                }), 
+                stroke: new Stroke ({ 
+                    color: 'black'
+                }) 
+            })  
+        })]; 
+    } else if (feature.get('shop') == 'bakery') {
+        return [new Style ({ 
+            image: new CircleStyle ({ 
+                radius: 3, 
+                fill: new Fill ({ 
+                    color: 'blue'
+                }), 
+                stroke: new Stroke ({ 
+                    color: 'white'
+                }) 
+            })  
+        })]; 
+    } else if (feature.get('shop') == 'butcher') {
+        return [new Style ({ 
+            image: new CircleStyle ({ 
+                radius: 4, 
+                fill: new Fill ({ 
+                    color: 'yellow'
+                }), 
+                stroke: new Stroke ({ 
+                    color: 'black'
+                }) 
+            })  
+        })]; 
+    } else if (feature.get('shop') == 'supermarket') {
+        return [new Style ({ 
+            image: new CircleStyle ({ 
+                radius: 3, 
+                fill: new Fill ({ 
+                    color: 'black'
+                }), 
+                stroke: new Stroke ({ 
+                    color: 'orange'
+                }) 
+            })  
+        })]; 
+    } else if (feature.get('shop') == 'convenience') {
+        return [new Style ({ 
+            image: new CircleStyle ({ 
+                radius: 3, 
+                fill: new Fill ({ 
+                    color: 'orange'
+                }), 
+                stroke: new Stroke ({ 
+                    color: 'black'
+                }) 
+            })  
+        })]; 
+    } else if (feature.get('shop') == 'pastry') {
+        return [new Style ({ 
+            image: new CircleStyle ({ 
+                radius: 3, 
+                fill: new Fill ({ 
+                    color: 'pink'
+                }), 
+                stroke: new Stroke ({ 
+                    color: 'black'
+                }) 
+            })  
+        })];
+    } else if (feature.get('shop') == 'frozen_food') {
+        return [new Style ({ 
+            image: new CircleStyle ({ 
+                radius: 3, 
+                fill: new Fill ({ 
+                    color: 'green'
+                }), 
+                stroke: new Stroke ({ 
+                    color: 'white'
+                }) 
+            })  
+        })];
+    } else if (feature.get('shop') == 'greengrocer') {
+        return [new Style ({ 
+            image: new CircleStyle ({ 
+                radius: 4, 
+                fill: new Fill ({ 
+                    color: 'red'
+                }), 
+                stroke: new Stroke ({ 
+                    color: 'black'
+                }) 
+            })  
+        })];
+    } else if (feature.get('shop') == 'seafood') {
+        return [new Style ({ 
+            image: new CircleStyle ({ 
+                radius: 3, 
+                fill: new Fill ({ 
+                    color: 'purple'
+                }), 
+                stroke: new Stroke ({ 
+                    color: 'black'
+                }) 
+            })  
+        })];
+    }
+
+};
 
 var comerciosVector = new VectorLayer({
     source: comerciosSource,
     type: 'Overlays',
     title: 'comercios',
-    style: comerciosStyle1
+    style: comerciosCond2
 });
 
 
