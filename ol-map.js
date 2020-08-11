@@ -10,8 +10,10 @@ import { defaults as defaultControls, OverviewMap } from 'ol/control.js';
 import LayerSwitcher from 'ol-layerswitcher/src/ol-layerswitcher.js';
 
 //interactions
-import Select from 'ol/interaction/Select';
 import Interaction from 'ol/interaction/Interaction';
+import {click, pointerMove} from 'ol/events/condition.js';
+import Select from 'ol/interaction/Select.js';
+import {defaults as defaultInteractions} from 'ol/interaction.js';
 
 //legenda wms https://openlayers.org/en/latest/examples/wms-getlegendgraphic.html
 import { Image as ImageLayer, Group as LayerGroup, Vector } from 'ol/layer.js';
@@ -29,15 +31,15 @@ import { Stroke, Style, Fill, Text } from 'ol/style';
 import CircleStyle from 'ol/style/Circle';
 import Icon from 'ol/style/Icon.js';
 
-//import fastfood from './img/icons8-street-food-100.png';
-//import bakery from './img/icons8-bakery-100.png';
-//import butchery from './img/icons8-butcher-100.png';
-//import supermarket from './img/icons8-buying-100.png';
-//import convenience from './img/icon8s-convenience-store-100.png';
-//import pastry from './img/icons8-cook-100.png';
-//import frozenfood from './img/icons8-ice-cream-scoop-100.png';
-//import greengrocer from './img/icons8-salad-100.png';
-//import seafood from './img/icons8-seafood-100.png';
+// import fastfood from './img/icons8-street-food-100.png';
+// import bakery from './img/icons8-bakery-100.png';
+// import butchery from './img/icons8-butcher-100.png';
+// import supermarket from './img/icons8-buying-100.png';
+// import convenience from './img/icon8s-convenience-store-100.png';
+// import pastry from './img/icons8-cook-100.png';
+// import frozenfood from './img/icons8-ice-cream-scoop-100.png';
+// import greengrocer from './img/icons8-salad-100.png';
+// import seafood from './img/icons8-seafood-100.png';
 
 //---------------------------------------------------------------
 //LAYERS----------------------------------------------------------
@@ -501,6 +503,26 @@ var overview = new OverviewMap({
 
 var layerSwitcher = new LayerSwitcher();
 
+//---------------------------------
+//INTERACTIONS------------------------
+//---------------------------------
+var selectInteraction = new Select({
+    condition: click,
+    layers: [comerciosVector],
+    style: new Style ({ 
+        image: new CircleStyle ({ 
+            opacity: 0.5,
+            radius: 6, 
+            fill: new Fill ({ 
+                color: '#dff5e5'
+            }), 
+            stroke: new Stroke ({ 
+                color: '#00fcf8'
+            }) 
+        })  
+    })
+})
+
 //-------------------------------
 //starting the app---------------
 //-------------------------------
@@ -511,6 +533,9 @@ function init() {
         view: myview,
         controls: defaultControls().extend([
             fullscreenbtn, overview, layerSwitcher
+        ]),
+        interactions: defaultInteractions().extend([
+            selectInteraction
         ])
     })
     // comerciosVector.once('load', function(e) {
@@ -544,7 +569,7 @@ function init() {
     //             //console.log('soy fishes')
     //         }
     //     })
-        
+     
     // })
 }
 
