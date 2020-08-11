@@ -605,6 +605,11 @@ function init() {
             overlayFeatureName.innerHTML = clickedFeatureName;
             overlayFeatureShop.innerHTML = clickedFeatureShop;
 
+            map.setView(new View({
+                center: clickedCoord,
+                zoom: 15
+            }))
+            
         })
     })
 }
