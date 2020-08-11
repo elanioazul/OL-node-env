@@ -31,6 +31,9 @@ import { Stroke, Style, Fill, Text } from 'ol/style';
 import CircleStyle from 'ol/style/Circle';
 import Icon from 'ol/style/Icon.js';
 
+//Overlays
+import Overlay from 'ol/Overlay.js'
+
 // import fastfood from './img/icons8-street-food-100.png';
 // import bakery from './img/icons8-bakery-100.png';
 // import butchery from './img/icons8-butcher-100.png';
@@ -523,6 +526,14 @@ var selectInteraction = new Select({
     })
 })
 
+//-----------------------------------
+//OVERLAY--------------------------------
+//-----------------------------------
+var popup = new Overlay({
+    element: document.getElementById('popup')
+})
+
+
 //-------------------------------
 //starting the app---------------
 //-------------------------------
@@ -536,7 +547,8 @@ function init() {
         ]),
         interactions: defaultInteractions().extend([
             selectInteraction
-        ])
+        ]),
+        overlays: [popup]
     })
     // comerciosVector.once('load', function(e) {
     //     comerciosVector.getSource().forEachFeature(function(feature) {
@@ -571,8 +583,34 @@ function init() {
     //     })
      
     // })
+
+    map.addOverlay(popup);
+
+    const overlayFeatureAmenity = document.getElementById('feature-amenity');
+    const overlayFeatureBrand = document.getElementById('feature-brand');
+    const overlayFeatureName = document.getElementById('feature-name');
+    const overlayFeatureShop = document.getElementById('feature-shop');
+
+    map.on('click', function(e) {
+        popup.setPosition(undefined);
+        map.forEachFeatureAtPixel(e.pixel, function(feature, comerciosVector){
+            let clickedCoord = e.coordinate;
+            let clickedFeatureAmenity = feature.get('amenity');
+            let clickedFeatureBrand = feature.get('brand');
+            let clickedFeatureName = feature.get('name');
+            let clickedFeatureShop = feature.get('shop');
+            popup.setPosition(clickedCoord);
+            overlayFeatureAmenity.innerHTML = clickedFeatureAmenity;
+            overlayFeatureBrand.innerHTML = clickedFeatureBrand;
+            overlayFeatureName.innerHTML = clickedFeatureName;
+            overlayFeatureShop.innerHTML = clickedFeatureShop;
+
+        })
+    })
 }
 
 
+
 init();
+
 
