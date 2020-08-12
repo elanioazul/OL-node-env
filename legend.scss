@@ -2,19 +2,30 @@
     z-index: 10;
     position: absolute;
     right: 1%;
-    top: 26%;
+    top: 38%;
 
     border: 2px solid #4a4d76;
     border-radius: 3px;
     background-color: white;
 }
-
 .legend-title {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight: 400;
+    font-family: 'Roboto';
+    font-weight: 700;
+
     font-size: 0.8rem;
     color: #4a4d76;
     text-align: center;
     padding: 2px 2px 4px 2px;
 }
+
+@media screen and (min-width: 1024px) {
+    .legend-frame {
+        right: 1%;
+        top: 26%;
+
+    }
+    
+
+}
+
 

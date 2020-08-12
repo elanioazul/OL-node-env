@@ -1,0 +1,4 @@
+http://localhost:8081/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=unigis:indicadores_zonascenso_comercios
+
+
+http://localhost:8081/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=unigis:indicadores_zonascenso_comercios&LEGEND_OPTIONS=fontSize:10;bgColor:0xc1d6dd;fontColor:0x1d2247;
