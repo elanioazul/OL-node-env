@@ -15,7 +15,7 @@ import {click, pointerMove} from 'ol/events/condition.js';
 import Select from 'ol/interaction/Select.js';
 import {defaults as defaultInteractions} from 'ol/interaction.js';
 
-//legenda wms https://openlayers.org/en/latest/examples/wms-getlegendgraphic.html
+//legenda wms 
 import { Image as ImageLayer, Group as LayerGroup, Vector } from 'ol/layer.js';
 import ImageWMS from 'ol/source/ImageWMS';
 
@@ -534,6 +534,31 @@ var popup = new Overlay({
 })
 
 
+//--------------------------------
+//LEGEND-----------------------
+//---------------------------------
+var wmsSourceLegend = new ImageWMS({
+    url: 'http://localhost:8081/geoserver/wms',
+    params: {
+        'LAYERS': 'unigis:indicadores_zonascenso_comercios',
+        'LEGEND_OPTIONS': {
+            'fontSize': '10',
+            'bgColor': '0xc1d6dd', 
+            'fontColor': '0x1d2247'
+        }
+    },
+    ratio: 1,
+    serverType: 'geoserver'
+})
+
+var updateLegend = function (resolution) {
+    var graphicUrl = wmsSourceLegend.getLegendUrl(resolution);
+    var img = document.getElementById('legend');
+    img.src = graphicUrl;
+  };
+
+
+
 //-------------------------------
 //starting the app---------------
 //-------------------------------
@@ -583,6 +608,16 @@ function init() {
     //     })
      
     // })
+
+    // Initial legend
+    var resolution = map.getView().getResolution();
+    updateLegend(resolution);
+  
+    // Update the legend when the resolution changes
+    map.getView().on('change:resolution', function (event) {
+      var resolution = event.target.getResolution();
+      updateLegend(resolution);
+    });
 
     map.addOverlay(popup);
 
