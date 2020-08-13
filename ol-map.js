@@ -401,7 +401,7 @@ var layerSwitcher = new LayerSwitcher();
 //---------------------------------
 //INTERACTIONS------------------------
 //---------------------------------
-var selectInteraction = new Select({
+var selectInteractionComercios = new Select({
     condition: click,
     layers: [comerciosVector],
     style: new Style ({ 
@@ -418,6 +418,17 @@ var selectInteraction = new Select({
     })
 })
 
+var selectInteractionZonas = new Select({
+    condition: click,
+    layers: [zonasVector],
+    style: new Style ({
+        stroke: new Stroke({
+          color: '#00fcf8',
+          width: 3
+        })
+    })
+});
+
 //-----------------------------------
 //OVERLAY--------------------------------
 //-----------------------------------
@@ -425,6 +436,9 @@ var popupComercios = new Overlay({
     element: document.getElementById('popup')
 })
 
+var popupZonas = new Overlay({
+    element: document.getElementById('popup-zonas')
+})
 
 //--------------------------------
 //LEGEND-----------------------
@@ -462,10 +476,8 @@ function init() {
         controls: defaultControls().extend([
             fullscreenbtn, overview, layerSwitcher
         ]),
-        interactions: defaultInteractions().extend([
-            selectInteraction
-        ]),
-        overlays: [popupComercios]
+        interactions: defaultInteractions(),
+        overlays: [popupComercios, popupZonas]
     })
 
     // Initial legend
@@ -478,22 +490,33 @@ function init() {
       updateLegend(resolution);
     });
 
-    map.addOverlay(popupComercios);
+    
+    
 
     const overlayFeatureAmenity = document.getElementById('feature-amenity');
     const overlayFeatureBrand = document.getElementById('feature-brand');
     const overlayFeatureName = document.getElementById('feature-name');
     const overlayFeatureShop = document.getElementById('feature-shop');
 
+    const overlayFeatureHab = document.getElementById('feature-hab');
+    const overlayFeatureComercios = document.getElementById('feature-comercios');
+    const overlayFeatureRatio = document.getElementById('feature-ratio');
+
     map.on('click', function(e) {
+        map.addOverlay(popupComercios);
+
         popupComercios.setPosition(undefined);
-        map.forEachFeatureAtPixel(e.pixel, function(feature, comerciosVector){
+
+        map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
             let clickedCoord = e.coordinate;
+
             let clickedFeatureAmenity = feature.get('amenity');
             let clickedFeatureBrand = feature.get('brand');
             let clickedFeatureName = feature.get('name');
             let clickedFeatureShop = feature.get('shop');
-            popupComercios.setPosition(clickedCoord);
+
+            popupZonas.setPosition(clickedCoord);
+
             overlayFeatureAmenity.innerHTML = clickedFeatureAmenity;
             overlayFeatureBrand.innerHTML = clickedFeatureBrand;
             overlayFeatureName.innerHTML = clickedFeatureName;
@@ -503,6 +526,38 @@ function init() {
                 center: clickedCoord,
                 zoom: 15
             }))
+
+            map.getInteractions().extend([selectInteractionComercios]);
+            
+        })
+    })
+
+
+
+    map.on('click', function(e) {
+        map.addOverlay(popupZonas);
+
+        popupZonas.setPosition(undefined);
+
+        map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
+            let clickedCoord = e.coordinate;
+
+            let clickedFeatureHab = feature.get('habitantes');
+            let clickedFeatureComercios = feature.get('num_comercios');
+            let clickedFeatureRatio = feature.get('ratio');
+
+            popupZonas.setPosition(clickedCoord);
+
+            overlayFeatureHab.innerHTML = clickedFeatureHab;
+            overlayFeatureComercios.innerHTML = clickedFeatureComercios;
+            overlayFeatureRatio.innerHTML = clickedFeatureRatio;
+
+            map.setView(new View({
+                center: clickedCoord,
+                zoom: 15
+            }))
+
+            map.getInteractions().extend([selectInteractionZonas]);
             
         })
     })
