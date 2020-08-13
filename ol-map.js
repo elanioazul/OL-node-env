@@ -73,7 +73,7 @@ var stamenlayer = new TileLayer({
 //served from my own Geoserver
 //-----------------------------
 
-//WMS----------------------------------------------------------------------
+//WMS Zonas----------------------------------------------------------------------
 var wmsSourceZonas = new ImageWMS({
     url: 'http://localhost:8081/geoserver/wms',
     params: {
@@ -87,12 +87,12 @@ var wmsSourceZonas = new ImageWMS({
 var indice = new ImageLayer({
     extent: [-449755.474430, 4914663.447962, -398423.932424, 4952049.314483],
     source: wmsSourceZonas,
-    opacity: 0.9,
+    opacity: 0.8,
     type: 'Overlays',
     title: 'ratio'
 })
 
-//WFS---------------------------------------------------------------------------------------
+//WFS Comercios---------------------------------------------------------------------------------------
 
 var comerciosSource = new VectorSource({
     format: new GeoJSON(),
@@ -107,31 +107,6 @@ var comerciosSource = new VectorSource({
 });
 
 //WFS comercios style
-var comerciosStyle1 = function (feature, resolution) { 
-    return [new Style ({ 
-        text: new Text ({ 
-            font: '16px Calibri,sans-serif', 
-            text: feature.get('brand'), 
-            fill: new Fill ({ 
-                color: '#d93d3d',
-                width: 2 
-            }), 
-            stroke: new Stroke ({ 
-                color: '#fff', 
-                width: 2 
-            }) 
-        }),
-        image: new CircleStyle ({ 
-            radius: 3, 
-            fill: new Fill ({ 
-                color: 'orange'
-            }), 
-            stroke: new Stroke ({ 
-                color: 'black'
-            }) 
-        })  
-    })]; 
-};
 
 var comerciosCond1 = function (feature, resolution) { 
     if (feature.get('shop') == 'other') {
@@ -449,7 +424,6 @@ var seafoodxop = new Style({
     })
 })
 
-
 var comerciosVector = new VectorLayer({
     source: comerciosSource,
     type: 'Overlays',
@@ -457,7 +431,33 @@ var comerciosVector = new VectorLayer({
     style: comerciosCond1
 });
 
+//WFS zonas to retrieve info from popup
+var zonasSource = new VectorSource({
+    format: new GeoJSON(),
+    url: function (extent) {
+        return (
+            'http://localhost:8081/geoserver/unigis/wfs?service=WFS&' +
+            'version=2.0.0&request=GetFeature&typeName=unigis:indicadores_zonascenso_comercios_nonull&' +
+            'outputformat=application/json'
+        );
+    },
+    strategy: bboxStrategy,
+});
 
+var zonasVector = new VectorLayer({
+    source: zonasSource,
+    type: 'Overlays',
+    title: 'zonas censales',
+    style: new Style({
+        fill: new Fill({
+            color: 'transparent'
+        }),
+        stroke: new Stroke({
+            color: 'black',
+            width: 0.5
+        })
+    })
+})
 
 //switch layer extension var
 var mylayers = [
@@ -470,7 +470,7 @@ var mylayers = [
     //Capa Overlay
     new LayerGroup({
         title: 'Overlays',
-        layers: [indice, comerciosVector]
+        layers: [indice, zonasVector, comerciosVector]
     })
 ]
 
