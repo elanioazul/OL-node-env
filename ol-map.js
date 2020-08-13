@@ -77,7 +77,7 @@ var stamenlayer = new TileLayer({
 var wmsSourceZonas = new ImageWMS({
     url: 'http://localhost:8081/geoserver/wms',
     params: {
-        'LAYERS': 'indicadores_zonascenso_comercios',
+        'LAYERS': 'indicadores_zonascenso_comercios_nonull',
         'FORMAT': 'image/png'
     },
     ratio: 1,
@@ -540,7 +540,7 @@ var popup = new Overlay({
 var wmsSourceLegend = new ImageWMS({
     url: 'http://localhost:8081/geoserver/wms',
     params: {
-        'LAYERS': 'unigis:indicadores_zonascenso_comercios',
+        'LAYERS': 'unigis:indicadores_zonascenso_comercios_nonull',
         'LEGEND_OPTIONS': {
             'fontSize': '10',
             'bgColor': '0xc1d6dd', 
