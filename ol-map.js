@@ -34,15 +34,6 @@ import Icon from 'ol/style/Icon.js';
 //Overlays
 import Overlay from 'ol/Overlay.js'
 
-// import fastfood from './img/icons8-street-food-100.png';
-// import bakery from './img/icons8-bakery-100.png';
-// import butchery from './img/icons8-butcher-100.png';
-// import supermarket from './img/icons8-buying-100.png';
-// import convenience from './img/icon8s-convenience-store-100.png';
-// import pastry from './img/icons8-cook-100.png';
-// import frozenfood from './img/icons8-ice-cream-scoop-100.png';
-// import greengrocer from './img/icons8-salad-100.png';
-// import seafood from './img/icons8-seafood-100.png';
 
 //---------------------------------------------------------------
 //LAYERS----------------------------------------------------------
@@ -325,105 +316,6 @@ var comerciosCond2 = function (feature, resolution) {
 
 };
 
-var fastfoodxop = new Style({
-    image: new Icon({
-        size: [100,100],
-        anchor: [24,33],
-        anchorXUnits: 'pixels',
-        anchorYUnits: 'pixels',
-        src: 'img/icons8-street-food-100.png',
-        crossOrigin: 'anonymous',
-    })
-})
-
-var bakeryxop = new Style({
-    image: new Icon({
-        size: [100,100],
-        anchor: [24,33],
-        anchorXUnits: 'pixels',
-        anchorYUnits: 'pixels',
-        src: 'img/icons8-bakery-100.png',
-        crossOrigin: 'anonymous',
-    })
-})
-
-var butcherxop = new Style({
-    image: new Icon({
-        size: [100,100],
-        anchor: [24,33],
-        anchorXUnits: 'pixels',
-        anchorYUnits: 'pixels',
-        src: 'img/icons8-butcher-100.png',
-        crossOrigin: 'anonymous',
-    })
-})
-
-var supermarketxop = new Style({
-    image: new Icon({
-        size: [100,100],
-        anchor: [24,33],
-        anchorXUnits: 'pixels',
-        anchorYUnits: 'pixels',
-        src: 'img/icons8-buying-100.png',
-        crossOrigin: 'anonymous',
-    })
-})
-
-var conveniencexop = new Style({
-    image: new Icon({
-        size: [100,100],
-        anchor: [24,33],
-        anchorXUnits: 'pixels',
-        anchorYUnits: 'pixels',
-        src: 'img/icons8-convenience-store-100.png',
-        crossOrigin: 'anonymous',
-    })
-})
-
-var pastryxop = new Style({
-    image: new Icon({
-        size: [100,100],
-        anchor: [24,33],
-        anchorXUnits: 'pixels',
-        anchorYUnits: 'pixels',
-        src: 'img/icons8-cook-100.png',
-        crossOrigin: 'anonymous',
-    })  
-})
-
-var frozenfoodxop = new Style({
-    image: new Icon({
-        size: [100,100],
-        anchor: [24,33],
-        anchorXUnits: 'pixels',
-        anchorYUnits: 'pixels',
-        src: 'img/icons8-ice-cream-scoop-100.png',
-        crossOrigin: 'anonymous',
-    })
-})
-
-var greengrocerxop = new Style({
-    image: new Icon({
-        size: [100,100],
-        anchor: [24,33],
-        anchorXUnits: 'pixels',
-        anchorYUnits: 'pixels',
-        src: 'img/icons8-salad-100.png',
-        crossOrigin: 'anonymous',
-    })
-})
-
-var seafoodxop = new Style({
-    image: new Icon({
-        size: [100,100],
-        anchor: [24,33],
-        anchorXUnits: 'pixels',
-        anchorYUnits: 'pixels',
-        src: 'img/icons8-seafood-100.png',
-        crossOrigin: 'anonymous',
-    })
-})
-
 var comerciosVector = new VectorLayer({
     source: comerciosSource,
     type: 'Overlays',
@@ -529,7 +421,7 @@ var selectInteraction = new Select({
 //-----------------------------------
 //OVERLAY--------------------------------
 //-----------------------------------
-var popup = new Overlay({
+var popupComercios = new Overlay({
     element: document.getElementById('popup')
 })
 
@@ -573,41 +465,8 @@ function init() {
         interactions: defaultInteractions().extend([
             selectInteraction
         ]),
-        overlays: [popup]
+        overlays: [popupComercios]
     })
-    // comerciosVector.once('load', function(e) {
-    //     comerciosVector.getSource().forEachFeature(function(feature) {
-    //         if (feature.getProperties().shop == 'other') {
-    //             feature.setStyle(fastfoodxop)
-    //             //console.log('soy fasfood')
-    //         } else if (feature.getProperties().shop == 'bakery') {
-    //             feature.setStyle(bakeryxop)
-    //             //console.log('soy bakery')
-    //         } else if (feature.getProperties().shop == 'butcher') {
-    //             feature.setStyle(butcherxop)
-    //             //console.log('soy butcher')
-    //         } else if (feature.getProperties().shop == 'supermarket') {
-    //             feature.setStyle(supermarketxop)
-    //             //console.log('soy super')
-    //         } else if (feature.getProperties().shop == 'convenience') {
-    //             feature.setStyle(conveniencexop)
-    //             //console.log('soy convenience')
-    //         } else if (feature.getProperties().shop == 'pastry') {
-    //             feature.setStyle(pastryxop)
-    //             //console.log('soy pastries and buenri')
-    //         } else if (feature.getProperties().shop == 'frozen_food') {
-    //             feature.setStyle(frozenfoodxop)
-    //             //console.log('soy frozen')
-    //         } else if (feature.getProperties().shop == 'greengrocer') {
-    //             feature.setStyle(greengrocerxop)
-    //             //console.log('soy vegeta')
-    //         } else if (feature.getProperties().shop == 'seafood') {
-    //             feature.setStyle(seafoodxop)
-    //             //console.log('soy fishes')
-    //         }
-    //     })
-     
-    // })
 
     // Initial legend
     var resolution = map.getView().getResolution();
@@ -619,7 +478,7 @@ function init() {
       updateLegend(resolution);
     });
 
-    map.addOverlay(popup);
+    map.addOverlay(popupComercios);
 
     const overlayFeatureAmenity = document.getElementById('feature-amenity');
     const overlayFeatureBrand = document.getElementById('feature-brand');
@@ -627,14 +486,14 @@ function init() {
     const overlayFeatureShop = document.getElementById('feature-shop');
 
     map.on('click', function(e) {
-        popup.setPosition(undefined);
+        popupComercios.setPosition(undefined);
         map.forEachFeatureAtPixel(e.pixel, function(feature, comerciosVector){
             let clickedCoord = e.coordinate;
             let clickedFeatureAmenity = feature.get('amenity');
             let clickedFeatureBrand = feature.get('brand');
             let clickedFeatureName = feature.get('name');
             let clickedFeatureShop = feature.get('shop');
-            popup.setPosition(clickedCoord);
+            popupComercios.setPosition(clickedCoord);
             overlayFeatureAmenity.innerHTML = clickedFeatureAmenity;
             overlayFeatureBrand.innerHTML = clickedFeatureBrand;
             overlayFeatureName.innerHTML = clickedFeatureName;
