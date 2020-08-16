@@ -33,6 +33,7 @@ import Icon from 'ol/style/Icon.js';
 
 //Overlays
 import Overlay from 'ol/Overlay.js'
+import { get } from 'ol/proj';
 
 
 //---------------------------------------------------------------
@@ -336,19 +337,21 @@ var zonasSource = new VectorSource({
     strategy: bboxStrategy,
 });
 
+var zonasVectStyle = new Style({
+    fill: new Fill({
+        color: 'transparent'
+    }),
+    stroke: new Stroke({
+        color: 'black',
+        width: 0.5
+    })
+})
+
 var zonasVector = new VectorLayer({
     source: zonasSource,
     type: 'Overlays',
     title: 'zonas censales',
-    style: new Style({
-        fill: new Fill({
-            color: 'transparent'
-        }),
-        stroke: new Stroke({
-            color: 'black',
-            width: 0.5
-        })
-    })
+    style: zonasVectStyle
 })
 
 //switch layer extension var
@@ -494,84 +497,98 @@ function init() {
       updateLegend(resolution);
     });
 
-    
-    
 
     const overlayFeatureAmenity = document.getElementById('feature-amenity');
     const overlayFeatureBrand = document.getElementById('feature-brand');
     const overlayFeatureName = document.getElementById('feature-name');
     const overlayFeatureShop = document.getElementById('feature-shop');
-
+    
     const overlayFeatureHab = document.getElementById('feature-hab');
     const overlayFeatureComercios = document.getElementById('feature-comercios');
     const overlayFeatureRatio = document.getElementById('feature-ratio');
 
     map.on('click', function(e) {
-        map.addOverlay(popupComercios);
-
         popupComercios.setPosition(undefined);
-
-        map.forEachFeatureAtPixel(e.pixel, function(feature){
-            let clickedCoord = e.coordinate;
-
-            let clickedFeatureAmenity = feature.get('amenity');
-            let clickedFeatureBrand = feature.get('brand');
-            let clickedFeatureName = feature.get('name');
-            let clickedFeatureShop = feature.get('shop');
-
-            popupZonas.setPosition(clickedCoord);
-
-            overlayFeatureAmenity.innerHTML = clickedFeatureAmenity;
-            overlayFeatureBrand.innerHTML = clickedFeatureBrand;
-            overlayFeatureName.innerHTML = clickedFeatureName;
-            overlayFeatureShop.innerHTML = clickedFeatureShop;
-
-            map.setView(new View({
-                center: clickedCoord,
-                zoom: 15
-            }))
-        }, {
-            layerFilter: function (layer) {
-                return layer === comerciosVector;
-            }
-        })
-    })
-
-
-
-    map.on('click', function(e) {
-        map.addOverlay(popupZonas);
-
         popupZonas.setPosition(undefined);
-
-        map.forEachFeatureAtPixel(e.pixel, function(feature){
-            let clickedCoord = e.coordinate;
-
-            let clickedFeatureHab = feature.get('habitantes');
-            let clickedFeatureComercios = feature.get('num_comercios');
-            let clickedFeatureRatio = feature.get('ratio');
-
-            popupZonas.setPosition(clickedCoord);
-
-            overlayFeatureHab.innerHTML = clickedFeatureHab;
-            overlayFeatureComercios.innerHTML = clickedFeatureComercios;
-            overlayFeatureRatio.innerHTML = clickedFeatureRatio;
-
-            map.setView(new View({
-                center: clickedCoord,
-                zoom: 15
-            }))
-            
-        }, {
-            layerFilter: function (layer) {
-                return layer === zonasVector;
+        debugger
+        map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
+            var capa = layer.getStyle();
+            debugger
+            if (capa === 'comerciosCond1') {
+                debugger
+                let clickedFeatureAmenity = feature.get('amenity');
+                let clickedFeatureBrand = feature.get('brand');
+                let clickedFeatureName = feature.get('name');
+                let clickedFeatureShop = feature.get('shop');
+    
+                overlayFeatureAmenity.innerHTML = clickedFeatureAmenity;
+                overlayFeatureBrand.innerHTML = clickedFeatureBrand;
+                overlayFeatureName.innerHTML = clickedFeatureName;
+                overlayFeatureShop.innerHTML = clickedFeatureShop;
+    
+                map.addOverlay(popupZonas);
+                let clickedCoord = e.coordinate;
+                popupZonas.setPosition(clickedCoord);
+                map.setView(new View({
+                    center: clickedCoord,
+                    zoom: 15
+                }))
+            }
+            debugger
+            if ( capa === "zonasVectStyle") {
+                debugger
+                let clickedFeatureHab = feature.get('habitantes');
+                let clickedFeatureComercios = feature.get('num_comercios');
+                let clickedFeatureRatio = feature.get('ratio');
+    
+                overlayFeatureHab.innerHTML = clickedFeatureHab;
+                overlayFeatureComercios.innerHTML = clickedFeatureComercios;
+                overlayFeatureRatio.innerHTML = clickedFeatureRatio;
+    
+                map.addOverlay(popupComercios);
+                let clickedCoord = e.coordinate;
+                popupComercios.setPosition(clickedCoord);
+                map.setView(new View({
+                    center: clickedCoord,
+                    zoom: 15
+                }))
             }
         })
     })
+
 }
 
-
-
 init();
+
+
+
+
+
+// map.on('click', function(evt){
+//     var template = 'lon: {x} - lat: {y}';
+//     var c4326 = ol.proj.transform(evt.coordinate,
+//                                   'EPSG:3857', 'EPSG:4326');
+//     var str_4326 = ol.coordinate.format(c4326, template, 2);
+//     createOverlay(str_4326, evt.coordinate);
+// });
+
+// function createOverlay(txt, coord) {
+//     var div = document.createElement('div');
+//     div.className = 'marker hint-address hint--always hint--left';
+//     div.setAttribute('data-hint', txt);
+
+//     var overlay = new ol.Overlay({
+//         element: div,
+//         offset: [-20, -40],
+//         position: coord,
+//         positioning: 'center-center'
+//     });
+//     map.addOverlay(overlay);
+// }
+
+
+
+
+
 
 
