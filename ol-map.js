@@ -432,12 +432,14 @@ var selectInteractionZonas = new Select({
 //-----------------------------------
 //OVERLAY--------------------------------
 //-----------------------------------
+var popupForComercios = document.getElementById('popup');
 var popupComercios = new Overlay({
-    element: document.getElementById('popup')
+    element: popupForComercios
 })
 
+var popupForZonas = document.getElementById('popup-zonas');
 var popupZonas = new Overlay({
-    element: document.getElementById('popup-zonas')
+    element: popupForZonas
 })
 
 //--------------------------------
@@ -476,7 +478,9 @@ function init() {
         controls: defaultControls().extend([
             fullscreenbtn, overview, layerSwitcher
         ]),
-        interactions: defaultInteractions(),
+        interactions: defaultInteractions().extend([
+            selectInteractionComercios, selectInteractionZonas
+        ]),
         overlays: [popupComercios, popupZonas]
     })
 
@@ -507,7 +511,7 @@ function init() {
 
         popupComercios.setPosition(undefined);
 
-        map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
+        map.forEachFeatureAtPixel(e.pixel, function(feature){
             let clickedCoord = e.coordinate;
 
             let clickedFeatureAmenity = feature.get('amenity');
@@ -526,9 +530,10 @@ function init() {
                 center: clickedCoord,
                 zoom: 15
             }))
-
-            map.getInteractions().extend([selectInteractionComercios]);
-            
+        }, {
+            layerFilter: function (layer) {
+                return layer === comerciosVector;
+            }
         })
     })
 
@@ -539,7 +544,7 @@ function init() {
 
         popupZonas.setPosition(undefined);
 
-        map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
+        map.forEachFeatureAtPixel(e.pixel, function(feature){
             let clickedCoord = e.coordinate;
 
             let clickedFeatureHab = feature.get('habitantes');
@@ -556,9 +561,11 @@ function init() {
                 center: clickedCoord,
                 zoom: 15
             }))
-
-            map.getInteractions().extend([selectInteractionZonas]);
             
+        }, {
+            layerFilter: function (layer) {
+                return layer === zonasVector;
+            }
         })
     })
 }
