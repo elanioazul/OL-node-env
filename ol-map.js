@@ -484,8 +484,7 @@ function init() {
         ]),
         interactions: defaultInteractions().extend([
             selectInteractionComercios, selectInteractionZonas
-        ]),
-        overlays: [popupComercios, popupZonas]
+        ])
     })
 
     // Initial legend
@@ -497,6 +496,18 @@ function init() {
       var resolution = event.target.getResolution();
       updateLegend(resolution);
     });
+
+    map.addOverlay(popupZonas);
+    map.addOverlay(popupComercios);
+
+    const overlayFeatureHab = document.getElementById('feature-hab');
+    const overlayFeatureComercios = document.getElementById('feature-comercios');
+    const overlayFeatureRatio = document.getElementById('feature-ratio');
+
+    const overlayFeatureAmenity = document.getElementById('feature-amenity');
+    const overlayFeatureBrand = document.getElementById('feature-brand');
+    const overlayFeatureName = document.getElementById('feature-name');
+    const overlayFeatureShop = document.getElementById('feature-shop');
 
     map.on('click', function(e) {
         popupComercios.setPosition(undefined);
@@ -510,9 +521,6 @@ function init() {
             if (found = undefined) {
                 debugger
                 map.addInteraction(selectInteractionZonas);
-                const overlayFeatureHab = document.getElementById('feature-hab');
-                const overlayFeatureComercios = document.getElementById('feature-comercios');
-                const overlayFeatureRatio = document.getElementById('feature-ratio');
 
                 let clickedFeatureHab = feature.get('habitantes');
                 let clickedFeatureComercios = feature.get('num_comercios');
@@ -521,8 +529,7 @@ function init() {
                 overlayFeatureHab.innerHTML = clickedFeatureHab;
                 overlayFeatureComercios.innerHTML = clickedFeatureComercios;
                 overlayFeatureRatio.innerHTML = clickedFeatureRatio;
-
-                map.addOverlay(popupZonas);
+                
                 popupZonas.setPosition(clickedCoord);
                 map.setView(new View({
                     center: clickedCoord,
@@ -531,12 +538,6 @@ function init() {
             } else if (found === 'amenity' ) {
                 debugger
                 map.addInteraction(selectInteractionComercios);
-
-                const overlayFeatureAmenity = document.getElementById('feature-amenity');
-                const overlayFeatureBrand = document.getElementById('feature-brand');
-                const overlayFeatureName = document.getElementById('feature-name');
-                const overlayFeatureShop = document.getElementById('feature-shop');
-                console.log(overlayFeatureShop, overlayFeatureBrand)
 
                 let clickedFeatureAmenity = feature.get('amenity');
                 let clickedFeatureBrand = feature.get('brand');
@@ -548,7 +549,6 @@ function init() {
                 overlayFeatureName.innerHTML = clickedFeatureName;
                 overlayFeatureShop.innerHTML = clickedFeatureShop;
                 
-                map.addOverlay(popupComercios);
                 popupComercios.setPosition(clickedCoord);
                 map.setView(new View({
                     center: clickedCoord,
