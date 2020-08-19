@@ -34,6 +34,7 @@ import Icon from 'ol/style/Icon.js';
 //Overlays
 import Overlay from 'ol/Overlay.js'
 import { get } from 'ol/proj';
+import Point from 'ol/geom/Point';
 
 
 //---------------------------------------------------------------
@@ -497,25 +498,46 @@ function init() {
       updateLegend(resolution);
     });
 
-
-    const overlayFeatureAmenity = document.getElementById('feature-amenity');
-    const overlayFeatureBrand = document.getElementById('feature-brand');
-    const overlayFeatureName = document.getElementById('feature-name');
-    const overlayFeatureShop = document.getElementById('feature-shop');
-    
-    const overlayFeatureHab = document.getElementById('feature-hab');
-    const overlayFeatureComercios = document.getElementById('feature-comercios');
-    const overlayFeatureRatio = document.getElementById('feature-ratio');
-
     map.on('click', function(e) {
         popupComercios.setPosition(undefined);
         popupZonas.setPosition(undefined);
         debugger
         map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
-            var capa = layer.getStyle();
+            let clickedCoord = e.coordinate;
+            var featureKeys = feature.getKeys();
+            let found = featureKeys.find(elem => elem === 'amenity')
             debugger
-            if (capa === 'comerciosCond1') {
+            if (found = undefined) {
                 debugger
+                map.addInteraction(selectInteractionZonas);
+                const overlayFeatureHab = document.getElementById('feature-hab');
+                const overlayFeatureComercios = document.getElementById('feature-comercios');
+                const overlayFeatureRatio = document.getElementById('feature-ratio');
+
+                let clickedFeatureHab = feature.get('habitantes');
+                let clickedFeatureComercios = feature.get('num_comercios');
+                let clickedFeatureRatio = feature.get('ratio');
+    
+                overlayFeatureHab.innerHTML = clickedFeatureHab;
+                overlayFeatureComercios.innerHTML = clickedFeatureComercios;
+                overlayFeatureRatio.innerHTML = clickedFeatureRatio;
+
+                map.addOverlay(popupZonas);
+                popupZonas.setPosition(clickedCoord);
+                map.setView(new View({
+                    center: clickedCoord,
+                    zoom: 15
+                }))
+            } else if (found === 'amenity' ) {
+                debugger
+                map.addInteraction(selectInteractionComercios);
+
+                const overlayFeatureAmenity = document.getElementById('feature-amenity');
+                const overlayFeatureBrand = document.getElementById('feature-brand');
+                const overlayFeatureName = document.getElementById('feature-name');
+                const overlayFeatureShop = document.getElementById('feature-shop');
+                console.log(overlayFeatureShop, overlayFeatureBrand)
+
                 let clickedFeatureAmenity = feature.get('amenity');
                 let clickedFeatureBrand = feature.get('brand');
                 let clickedFeatureName = feature.get('name');
@@ -525,70 +547,19 @@ function init() {
                 overlayFeatureBrand.innerHTML = clickedFeatureBrand;
                 overlayFeatureName.innerHTML = clickedFeatureName;
                 overlayFeatureShop.innerHTML = clickedFeatureShop;
-    
-                map.addOverlay(popupZonas);
-                let clickedCoord = e.coordinate;
-                popupZonas.setPosition(clickedCoord);
-                map.setView(new View({
-                    center: clickedCoord,
-                    zoom: 15
-                }))
-            }
-            debugger
-            if ( capa === "zonasVectStyle") {
-                debugger
-                let clickedFeatureHab = feature.get('habitantes');
-                let clickedFeatureComercios = feature.get('num_comercios');
-                let clickedFeatureRatio = feature.get('ratio');
-    
-                overlayFeatureHab.innerHTML = clickedFeatureHab;
-                overlayFeatureComercios.innerHTML = clickedFeatureComercios;
-                overlayFeatureRatio.innerHTML = clickedFeatureRatio;
-    
+                
                 map.addOverlay(popupComercios);
-                let clickedCoord = e.coordinate;
                 popupComercios.setPosition(clickedCoord);
                 map.setView(new View({
                     center: clickedCoord,
                     zoom: 15
                 }))
-            }
+            }            
         })
     })
 
 }
 
 init();
-
-
-
-
-
-// map.on('click', function(evt){
-//     var template = 'lon: {x} - lat: {y}';
-//     var c4326 = ol.proj.transform(evt.coordinate,
-//                                   'EPSG:3857', 'EPSG:4326');
-//     var str_4326 = ol.coordinate.format(c4326, template, 2);
-//     createOverlay(str_4326, evt.coordinate);
-// });
-
-// function createOverlay(txt, coord) {
-//     var div = document.createElement('div');
-//     div.className = 'marker hint-address hint--always hint--left';
-//     div.setAttribute('data-hint', txt);
-
-//     var overlay = new ol.Overlay({
-//         element: div,
-//         offset: [-20, -40],
-//         position: coord,
-//         positioning: 'center-center'
-//     });
-//     map.addOverlay(overlay);
-// }
-
-
-
-
-
 
 
