@@ -27,9 +27,10 @@ import VectorLayer from 'ol/layer/Vector'
 import { bbox as bboxStrategy, bbox } from 'ol/loadingstrategy.js'
 
 //styles
-import { Stroke, Style, Fill, Text } from 'ol/style';
+import { Stroke, Style, Text } from 'ol/style';
 import CircleStyle from 'ol/style/Circle';
 import Icon from 'ol/style/Icon.js';
+import Fill from 'ol/style/Fill';
 
 //Overlays
 import Overlay from 'ol/Overlay.js'
@@ -429,6 +430,9 @@ var selectInteractionZonas = new Select({
         stroke: new Stroke({
           color: '#00fcf8',
           width: 3
+        }),
+        fill: new Fill({
+            color: '#fcdf03'
         })
     })
 });
@@ -497,8 +501,8 @@ function init() {
       updateLegend(resolution);
     });
 
-    map.addOverlay(popupZonas);
-    map.addOverlay(popupComercios);
+    
+    
 
     const overlayFeatureHab = document.getElementById('feature-hab');
     const overlayFeatureComercios = document.getElementById('feature-comercios');
@@ -512,13 +516,9 @@ function init() {
     map.on('click', function(e) {
         popupComercios.setPosition(undefined);
         popupZonas.setPosition(undefined);
+        let clickedCoord = e.coordinate;
         debugger
         map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
-            let clickedCoord = e.coordinate;
-            var featureKeys = feature.getKeys();
-            let found = featureKeys.find(elem => elem === 'amenity')
-            debugger
-            if (found = undefined) {
                 debugger
                 map.addInteraction(selectInteractionZonas);
 
@@ -530,31 +530,41 @@ function init() {
                 overlayFeatureComercios.innerHTML = clickedFeatureComercios;
                 overlayFeatureRatio.innerHTML = clickedFeatureRatio;
                 
+                map.addOverlay(popupZonas);
                 popupZonas.setPosition(clickedCoord);
                 map.setView(new View({
                     center: clickedCoord,
                     zoom: 15
                 }))
-            } else if (found === 'amenity' ) {
-                debugger
-                map.addInteraction(selectInteractionComercios);
+        }, {
+            layerFilter: function(layer) {
+                return layer === zonasVector
+            }
+        })
+        map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
+            debugger
+            map.addInteraction(selectInteractionComercios);
 
-                let clickedFeatureAmenity = feature.get('amenity');
-                let clickedFeatureBrand = feature.get('brand');
-                let clickedFeatureName = feature.get('name');
-                let clickedFeatureShop = feature.get('shop');
-    
-                overlayFeatureAmenity.innerHTML = clickedFeatureAmenity;
-                overlayFeatureBrand.innerHTML = clickedFeatureBrand;
-                overlayFeatureName.innerHTML = clickedFeatureName;
-                overlayFeatureShop.innerHTML = clickedFeatureShop;
-                
-                popupComercios.setPosition(clickedCoord);
-                map.setView(new View({
-                    center: clickedCoord,
-                    zoom: 15
-                }))
-            }            
+            let clickedFeatureAmenity = feature.get('amenity');
+            let clickedFeatureBrand = feature.get('brand');
+            let clickedFeatureName = feature.get('name');
+            let clickedFeatureShop = feature.get('shop');
+
+            overlayFeatureAmenity.innerHTML = clickedFeatureAmenity;
+            overlayFeatureBrand.innerHTML = clickedFeatureBrand;
+            overlayFeatureName.innerHTML = clickedFeatureName;
+            overlayFeatureShop.innerHTML = clickedFeatureShop;
+            
+            map.addOverlay(popupComercios);
+            popupComercios.setPosition(clickedCoord);
+            map.setView(new View({
+                center: clickedCoord,
+                zoom: 15
+            }))  
+        }, {
+            layerFilter: function(layer) {
+                return layer === comerciosVectors
+            }
         })
     })
 
