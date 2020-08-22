@@ -485,6 +485,9 @@ function init() {
         view: myview,
         controls: defaultControls().extend([
             fullscreenbtn, overview, layerSwitcher
+        ]),
+        interactions: defaultInteractions().extend([
+            selectInteractionZonas, selectInteractionComercios
         ])
     })
 
@@ -504,7 +507,6 @@ function init() {
         popupZonas.setPosition(undefined);
         let clickedCoord = e.coordinate;
         debugger
-        //let featuresPool = [];
         let layersPool = [];
         map.forEachLayerAtPixel(e.pixel, function(layer) {
             layersPool.push(layer)
@@ -514,9 +516,9 @@ function init() {
             map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
                 debugger
                 map.addInteraction(selectInteractionZonas);
-
                 map.addOverlay(popupZonas);
-            
+                selectInteractionComercios.setActive(false)
+
                 const overlayFeatureHab = document.getElementById('feature-hab');
                 const overlayFeatureComercios = document.getElementById('feature-comercios');
                 const overlayFeatureRatio = document.getElementById('feature-ratio');
@@ -534,6 +536,7 @@ function init() {
                     center: clickedCoord,
                     zoom: 15
                 }))
+                
         }, {
             layerFilter: function(layer) {
                 return layer === zonasVector
@@ -541,40 +544,12 @@ function init() {
         })
 
         } else if ( layersPool.length === 3) {
-            map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
-                    debugger
-                    map.addInteraction(selectInteractionZonas);
-    
-                    map.addOverlay(popupZonas);
-                
-                    const overlayFeatureHab = document.getElementById('feature-hab');
-                    const overlayFeatureComercios = document.getElementById('feature-comercios');
-                    const overlayFeatureRatio = document.getElementById('feature-ratio');
-    
-                    let clickedFeatureHab = feature.get('habitantes');
-                    let clickedFeatureComercios = feature.get('num_comercios');
-                    let clickedFeatureRatio = feature.get('ratio');
-        
-                    overlayFeatureHab.innerHTML = clickedFeatureHab;
-                    overlayFeatureComercios.innerHTML = clickedFeatureComercios;
-                    overlayFeatureRatio.innerHTML = clickedFeatureRatio;
-                    
-                    popupZonas.setPosition(clickedCoord);
-                    map.setView(new View({
-                        center: clickedCoord,
-                        zoom: 15
-                    }))
-            }, {
-                layerFilter: function(layer) {
-                    return layer === zonasVector
-                }
-            })
             map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
                 debugger
                 map.addInteraction(selectInteractionComercios);
-                //selectInteractionComercios.setActive(false);
-    
                 map.addOverlay(popupComercios);
+                selectInteractionZonas.setActive(false);
+
             
                 const overlayFeatureAmenity = document.getElementById('feature-amenity');
                 const overlayFeatureBrand = document.getElementById('feature-brand');
@@ -595,7 +570,7 @@ function init() {
                 map.setView(new View({
                     center: clickedCoord,
                     zoom: 15
-                }))  
+                })) 
             }, {
                 layerFilter: function(layer) {
                     return layer === comerciosVector
