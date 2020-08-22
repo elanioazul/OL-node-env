@@ -440,7 +440,15 @@ var selectInteractionZonas = new Select({
 //-----------------------------------
 //OVERLAY--------------------------------
 //-----------------------------------
+var popupForZonas = document.getElementById('popup-zonas');
+var popupZonas = new Overlay({
+    element: popupForZonas
+})
 
+var popupForComercios = document.getElementById('popup');
+var popupComercios = new Overlay({
+    element: popupForComercios
+})
 
 //--------------------------------
 //LEGEND-----------------------
@@ -493,18 +501,6 @@ function init() {
       updateLegend(resolution);
     });
 
-    
-    var popupForZonas = document.getElementById('popup-zonas');
-    var popupZonas = new Overlay({
-        element: popupForZonas
-    })
-
-    var popupForComercios = document.getElementById('popup');
-    var popupComercios = new Overlay({
-        element: popupForComercios
-    })
-
-
     map.on('click', function(e) {
 
         popupComercios.setPosition(undefined);
@@ -529,7 +525,6 @@ function init() {
                 overlayFeatureComercios.innerHTML = clickedFeatureComercios;
                 overlayFeatureRatio.innerHTML = clickedFeatureRatio;
                 
-                
                 popupZonas.setPosition(clickedCoord);
                 map.setView(new View({
                     center: clickedCoord,
@@ -543,7 +538,6 @@ function init() {
         map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
             debugger
             map.addInteraction(selectInteractionComercios);
-
 
             map.addOverlay(popupComercios);
         
@@ -561,7 +555,6 @@ function init() {
             overlayFeatureBrand.innerHTML = clickedFeatureBrand;
             overlayFeatureName.innerHTML = clickedFeatureName;
             overlayFeatureShop.innerHTML = clickedFeatureShop;
-            
             
             popupComercios.setPosition(clickedCoord);
             map.setView(new View({
