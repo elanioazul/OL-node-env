@@ -485,9 +485,6 @@ function init() {
         view: myview,
         controls: defaultControls().extend([
             fullscreenbtn, overview, layerSwitcher
-        ]),
-        interactions: defaultInteractions().extend([
-            selectInteractionZonas, selectInteractionComercios
         ])
     })
 
@@ -513,12 +510,12 @@ function init() {
         })
         debugger
         if (layersPool.length === 2) {
+            map.addOverlay(popupZonas);
+            
             map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
-                debugger
                 map.addInteraction(selectInteractionZonas);
-                map.addOverlay(popupZonas);
-                selectInteractionComercios.setActive(false)
-
+                //selectInteractionComercios.setActive(false);
+                debugger
                 const overlayFeatureHab = document.getElementById('feature-hab');
                 const overlayFeatureComercios = document.getElementById('feature-comercios');
                 const overlayFeatureRatio = document.getElementById('feature-ratio');
@@ -544,13 +541,13 @@ function init() {
         })
 
         } else if ( layersPool.length === 3) {
+            map.addOverlay(popupComercios);
+            //selectInteractionZonas.setActive(false);
+            selectInteractionZonas.setMap(map);
+            map.addInteraction(selectInteractionComercios);
             map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
-                debugger
-                map.addInteraction(selectInteractionComercios);
-                map.addOverlay(popupComercios);
-                selectInteractionZonas.setActive(false);
 
-            
+                debugger
                 const overlayFeatureAmenity = document.getElementById('feature-amenity');
                 const overlayFeatureBrand = document.getElementById('feature-brand');
                 const overlayFeatureName = document.getElementById('feature-name');
