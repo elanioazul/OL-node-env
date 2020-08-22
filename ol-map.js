@@ -417,7 +417,7 @@ var selectInteractionComercios = new Select({
                 color: 'black'
             }), 
             stroke: new Stroke ({ 
-                color: '#00fcf8'
+                color: '#f04c1f'
             }) 
         })  
     })
@@ -428,11 +428,8 @@ var selectInteractionZonas = new Select({
     layers: [zonasVector],
     style: new Style ({
         stroke: new Stroke({
-          color: '#00fcf8',
+          color: '#f04c1f',
           width: 3
-        }),
-        fill: new Fill({
-            color: '#fcdf03'
         })
     })
 });
