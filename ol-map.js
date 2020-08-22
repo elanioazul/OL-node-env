@@ -504,7 +504,14 @@ function init() {
         popupZonas.setPosition(undefined);
         let clickedCoord = e.coordinate;
         debugger
-        map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
+        //let featuresPool = [];
+        let layersPool = [];
+        map.forEachLayerAtPixel(e.pixel, function(layer) {
+            layersPool.push(layer)
+        })
+        debugger
+        if (layersPool.length === 2) {
+            map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
                 debugger
                 map.addInteraction(selectInteractionZonas);
 
@@ -532,38 +539,71 @@ function init() {
                 return layer === zonasVector
             }
         })
-        map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
-            debugger
-            map.addInteraction(selectInteractionComercios);
-            //selectInteractionComercios.setActive(false);
 
-            map.addOverlay(popupComercios);
+        } else if ( layersPool.length === 3) {
+            map.forEachFeatureAtPixel(e.pixel, function(feature, layer){
+                    debugger
+                    map.addInteraction(selectInteractionZonas);
+    
+                    map.addOverlay(popupZonas);
+                
+                    const overlayFeatureHab = document.getElementById('feature-hab');
+                    const overlayFeatureComercios = document.getElementById('feature-comercios');
+                    const overlayFeatureRatio = document.getElementById('feature-ratio');
+    
+                    let clickedFeatureHab = feature.get('habitantes');
+                    let clickedFeatureComercios = feature.get('num_comercios');
+                    let clickedFeatureRatio = feature.get('ratio');
         
-            const overlayFeatureAmenity = document.getElementById('feature-amenity');
-            const overlayFeatureBrand = document.getElementById('feature-brand');
-            const overlayFeatureName = document.getElementById('feature-name');
-            const overlayFeatureShop = document.getElementById('feature-shop');
-
-            let clickedFeatureAmenity = feature.get('amenity');
-            let clickedFeatureBrand = feature.get('brand');
-            let clickedFeatureName = feature.get('name');
-            let clickedFeatureShop = feature.get('shop');
-
-            overlayFeatureAmenity.innerHTML = clickedFeatureAmenity;
-            overlayFeatureBrand.innerHTML = clickedFeatureBrand;
-            overlayFeatureName.innerHTML = clickedFeatureName;
-            overlayFeatureShop.innerHTML = clickedFeatureShop;
+                    overlayFeatureHab.innerHTML = clickedFeatureHab;
+                    overlayFeatureComercios.innerHTML = clickedFeatureComercios;
+                    overlayFeatureRatio.innerHTML = clickedFeatureRatio;
+                    
+                    popupZonas.setPosition(clickedCoord);
+                    map.setView(new View({
+                        center: clickedCoord,
+                        zoom: 15
+                    }))
+            }, {
+                layerFilter: function(layer) {
+                    return layer === zonasVector
+                }
+            })
+            map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
+                debugger
+                map.addInteraction(selectInteractionComercios);
+                //selectInteractionComercios.setActive(false);
+    
+                map.addOverlay(popupComercios);
             
-            popupComercios.setPosition(clickedCoord);
-            map.setView(new View({
-                center: clickedCoord,
-                zoom: 15
-            }))  
-        }, {
-            layerFilter: function(layer) {
-                return layer === comerciosVector
-            }
-        })
+                const overlayFeatureAmenity = document.getElementById('feature-amenity');
+                const overlayFeatureBrand = document.getElementById('feature-brand');
+                const overlayFeatureName = document.getElementById('feature-name');
+                const overlayFeatureShop = document.getElementById('feature-shop');
+    
+                let clickedFeatureAmenity = feature.get('amenity');
+                let clickedFeatureBrand = feature.get('brand');
+                let clickedFeatureName = feature.get('name');
+                let clickedFeatureShop = feature.get('shop');
+    
+                overlayFeatureAmenity.innerHTML = clickedFeatureAmenity;
+                overlayFeatureBrand.innerHTML = clickedFeatureBrand;
+                overlayFeatureName.innerHTML = clickedFeatureName;
+                overlayFeatureShop.innerHTML = clickedFeatureShop;
+                
+                popupComercios.setPosition(clickedCoord);
+                map.setView(new View({
+                    center: clickedCoord,
+                    zoom: 15
+                }))  
+            }, {
+                layerFilter: function(layer) {
+                    return layer === comerciosVector
+                }
+            })
+
+        }
+
     })
 
 }
