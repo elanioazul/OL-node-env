@@ -485,9 +485,6 @@ function init() {
         view: myview,
         controls: defaultControls().extend([
             fullscreenbtn, overview, layerSwitcher
-        ]),
-        interactions: defaultInteractions().extend([
-            selectInteractionComercios, selectInteractionZonas
         ])
     })
 
@@ -538,6 +535,7 @@ function init() {
         map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
             debugger
             map.addInteraction(selectInteractionComercios);
+            //selectInteractionComercios.setActive(false);
 
             map.addOverlay(popupComercios);
         
